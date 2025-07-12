@@ -1,11 +1,13 @@
 package modules.users.domain.model
 
 import core.model.Role
-import java.time.LocalDateTime
+import kotlinx.serialization.Serializable
 import java.util.UUID
 
+
+@Serializable
 data class User(
-    val id: UUID,
+    val id: String = UUID.randomUUID().toString(),
     val name: String,
     val email: String,
     val password: String,

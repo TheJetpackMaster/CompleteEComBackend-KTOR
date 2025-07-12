@@ -7,7 +7,7 @@ import java.util.UUID
 class UpdateUserByIdUseCase(
     private val userRepository: IUserRepository
 ) {
-    suspend operator fun invoke(id: UUID, updatedUser: User): User? {
+    suspend operator fun invoke(id: String, updatedUser: User): User? {
         return userRepository.updateUserById(id, updatedUser)
     }
 }

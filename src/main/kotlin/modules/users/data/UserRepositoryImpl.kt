@@ -9,6 +9,7 @@ import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.update
 import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.selectAll
 import java.util.UUID
 
 class UserRepositoryImpl : IUserRepository {
@@ -29,7 +30,7 @@ class UserRepositoryImpl : IUserRepository {
 
     // Update user by id
     override suspend fun updateUserById(
-        id: UUID,
+        id: String,
         updatedUser: User
     ): User? = dbQuery{
         UsersTable.update({ UsersTable.id eq id}){
@@ -45,7 +46,7 @@ class UserRepositoryImpl : IUserRepository {
     }
 
     // Delete user by id
-    override suspend fun deleteUserById(id: UUID): Boolean = dbQuery{
+    override suspend fun deleteUserById(id: String): Boolean = dbQuery{
         UsersTable.deleteWhere{ UsersTable.id eq (id)}
         return@dbQuery true
     }
@@ -54,16 +55,18 @@ class UserRepositoryImpl : IUserRepository {
     // Find User By email
     override suspend fun findByEmail(email: String): User? = dbQuery {
         UsersTable
-            .select(with(SqlExpressionBuilder) { UsersTable.email eq email })
+            .selectAll() // <-- This ensures 'id' is included in ResultRow
+            .where { UsersTable.email eq email }
             .map { it.toUser() }
             .singleOrNull()
     }
 
 
     // Find User By id
-    override suspend fun findById(id: UUID): User? = dbQuery {
+    override suspend fun findById(id: String): User? = dbQuery {
         UsersTable
-            .select(with(SqlExpressionBuilder) { UsersTable.id eq id })
+            .selectAll()
+            .where { UsersTable.id eq id }
             .map { it.toUser() }
             .singleOrNull()
     }

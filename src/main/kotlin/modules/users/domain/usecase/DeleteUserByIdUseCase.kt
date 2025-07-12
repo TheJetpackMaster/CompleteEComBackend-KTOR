@@ -6,7 +6,7 @@ import java.util.UUID
 class DeleteUserByIdUseCase(
     private val userRepository: IUserRepository
 ) {
-    suspend operator fun invoke(id: UUID): Boolean {
+    suspend operator fun invoke(id: String): Boolean {
         return userRepository.deleteUserById(id)
     }
 }

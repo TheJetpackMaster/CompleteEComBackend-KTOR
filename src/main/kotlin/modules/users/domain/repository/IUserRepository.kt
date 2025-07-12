@@ -10,14 +10,14 @@ interface IUserRepository {
     suspend fun save(user: User): User
 
     // Update user by ID (pass updated user)
-    suspend fun updateUserById(id: UUID, updatedUser: User): User?
+    suspend fun updateUserById(id: String, updatedUser: User): User?
 
     // Delete user by ID
-    suspend fun deleteUserById(id: UUID): Boolean
+    suspend fun deleteUserById(id: String): Boolean
 
     // Find user by email
     suspend fun findByEmail(email: String): User?
 
     // Find user by ID
-    suspend fun findById(id: UUID): User?
+    suspend fun findById(id: String): User?
 }

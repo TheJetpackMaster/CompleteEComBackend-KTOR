@@ -7,7 +7,7 @@ import java.util.UUID
 class GetUserByIdUseCase(
     private val userRepository: IUserRepository
 ) {
-    suspend operator fun invoke(id: UUID): User? {
+    suspend operator fun invoke(id: String): User? {
         return userRepository.findById(id)
     }
 }
