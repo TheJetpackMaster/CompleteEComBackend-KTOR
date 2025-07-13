@@ -1,5 +1,7 @@
 package com.ecom.config
 
+import com.ecom.modules.auth.domain.usecase.LoginUserUseCase
+import com.ecom.modules.auth.presentation.authRoutes
 import com.ecom.modules.users.domain.usecase.RegisterUserUseCase
 import com.ecom.modules.users.presentation.userRoutes
 import io.ktor.server.application.*
@@ -13,8 +15,12 @@ import org.koin.ktor.ext.get
 fun Application.configureRouting(
 
 ) {
+    //User
     val registerUserUseCase: RegisterUserUseCase = get()
     val getUserByIdUseCase: GetUserByIdUseCase = get()
+
+    //Auth
+    val loginUserUseCase: LoginUserUseCase = get()
 
     routing {
 
@@ -23,5 +29,11 @@ fun Application.configureRouting(
             registerUserUseCase,
             getUserByIdUseCase
         )
+
+        //Auth Routes
+        authRoutes(
+            loginUserUseCase
+        )
+
     }
 }
