@@ -20,5 +20,5 @@ interface IProductRepository {
     suspend fun findProductById(productId:String):Product?
 
     // Update product by id
-    suspend fun updateProductById(productId:String):Product?
+    suspend fun updateProductById(productId:String,updatedProduct: Product):Product?
 }
