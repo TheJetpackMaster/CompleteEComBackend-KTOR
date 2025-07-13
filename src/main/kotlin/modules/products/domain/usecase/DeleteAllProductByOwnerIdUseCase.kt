@@ -1,4 +1,11 @@
 package com.ecom.modules.products.domain.usecase
 
-class DeleteAllProductByOwnerIdUseCase {
+import com.ecom.modules.products.domain.repository.IProductRepository
+
+class DeleteAllProductByOwnerIdUseCase(
+    private val productRepository: IProductRepository
+) {
+    suspend operator fun invoke(ownerId:String): Boolean{
+        return productRepository.deleteAllProducts(ownerId)
+    }
 }
