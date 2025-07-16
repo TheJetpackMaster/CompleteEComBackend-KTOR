@@ -1,5 +1,6 @@
 package config
 
+import com.ecom.modules.cart.di.cartModule
 import io.ktor.server.application.*
 import modules.auth.di.authModule
 import modules.products.di.productModule
@@ -14,7 +15,8 @@ fun Application.configureKoin() {
             modules = listOf(
                 userModule,
                 authModule,
-                productModule
+                productModule,
+                cartModule
             )
         )
     }

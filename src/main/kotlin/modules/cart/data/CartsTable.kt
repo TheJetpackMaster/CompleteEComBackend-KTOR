@@ -9,5 +9,5 @@ object CartsTable : Table("carts") {
     val items = text("items") // JSON string
     val updatedAt = long("updated_at")
 
-    override val primaryKey = PrimaryKey(id)
+    override val primaryKey = PrimaryKey(userId)
 }

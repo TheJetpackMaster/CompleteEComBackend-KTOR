@@ -12,6 +12,11 @@ import com.ecom.modules.users.domain.usecase.RegisterUserUseCase
 import com.ecom.modules.users.presentation.userRoutes
 import io.ktor.server.application.*
 import io.ktor.server.routing.*
+import modules.cart.domain.usecase.AddToCartUseCase
+import modules.cart.domain.usecase.ClearCartUseCase
+import modules.cart.domain.usecase.GetCartUseCase
+import modules.cart.domain.usecase.RemoveFromCartUseCase
+import modules.cart.presentation.cartRoutes
 import modules.products.domain.usecase.GetAllProductsUseCase
 import modules.users.domain.usecase.GetUserByIdUseCase
 import org.koin.ktor.ext.get
@@ -35,6 +40,12 @@ fun Application.configureRouting(
     val deleteAllProductByOwnerIdUseCase: DeleteAllProductsByOwnerIdUseCase = get()
 
 
+    // Cart
+    val addToCartUseCase: AddToCartUseCase = get()
+    val removeFromCartUseCase: RemoveFromCartUseCase = get()
+    val getCartUseCase: GetCartUseCase = get()
+    val clearCartUseCase: ClearCartUseCase = get()
+
     routing {
 
         //User routes
@@ -56,6 +67,14 @@ fun Application.configureRouting(
             deleteProductUseCase,
             updateProductUseCase,
             deleteAllProductByOwnerIdUseCase
+        )
+
+        //Cart Routes
+        cartRoutes(
+            addToCartUseCase,
+            removeFromCartUseCase,
+            getCartUseCase,
+            clearCartUseCase
         )
     }
 }
