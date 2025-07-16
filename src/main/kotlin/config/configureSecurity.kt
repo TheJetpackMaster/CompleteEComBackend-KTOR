@@ -6,14 +6,15 @@ import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 
+val jwtSecret = "temp_secret_key"
+
 fun Application.configureSecurity() {
-    // Please read the jwt property from the config file if you are using EngineMain
     val jwtAudience = "jwt-audience"
     val jwtDomain = "https://jwt-provider-domain/"
     val jwtRealm = "ktor sample app"
-    val jwtSecret = "secret"
-    authentication {
-        jwt {
+
+    install(Authentication) { // ← this is required
+        jwt("jwt") { // name the config so you can use authenticate("jwt")
             realm = jwtRealm
             verifier(
                 JWT
@@ -23,7 +24,9 @@ fun Application.configureSecurity() {
                     .build()
             )
             validate { credential ->
-                if (credential.payload.audience.contains(jwtAudience)) JWTPrincipal(credential.payload) else null
+                if (credential.payload.getClaim("userId").asString().isNotEmpty()) {
+                    JWTPrincipal(credential.payload)
+                } else null
             }
         }
     }

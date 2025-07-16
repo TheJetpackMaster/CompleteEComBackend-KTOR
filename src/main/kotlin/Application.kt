@@ -18,4 +18,5 @@ fun Application.module() {
 
     // Configure all the installed frameworks(plugins)
     configureKtor()
+
 }

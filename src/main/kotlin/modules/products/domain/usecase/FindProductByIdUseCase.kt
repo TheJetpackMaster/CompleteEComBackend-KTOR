@@ -8,6 +8,5 @@ class FindProductByIdUseCase(
 ) {
     suspend operator fun invoke(productId: String): Product?{
        return productRepository.findProductById(productId)
-
     }
 }

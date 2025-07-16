@@ -21,4 +21,7 @@ interface IProductRepository {
 
     // Update product by id
     suspend fun updateProductById(productId:String,updatedProduct: Product):Product?
+
+    //Get all products
+    suspend fun getAllProducts(): List<Product>
 }

@@ -12,4 +12,6 @@ object UsersTable : Table("users") {
     val password = varchar("password", 255)
     val role = enumerationByName("role", 20, Role::class).default(Role.USER)
     val isVerifiedSeller = bool("is_verified_seller").default(false)
+
+    override val primaryKey = PrimaryKey(id)
 }

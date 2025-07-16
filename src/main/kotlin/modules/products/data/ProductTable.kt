@@ -11,4 +11,6 @@ object ProductTable : Table("products") {
     val price = integer("price")
     val stock = integer("stock")
     val ownerId = varchar("ownerId",36).references(UsersTable.id)
+
+    override val primaryKey = PrimaryKey(id)
 }

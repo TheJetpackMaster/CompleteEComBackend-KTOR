@@ -15,17 +15,14 @@ import org.koin.logger.slf4jLogger
 // Configure all the installing plugins
 fun Application.configureKtor() {
 
+    // Security config
+    configureSecurity()
+
     // Koin config
     configureKoin()
 
-    // Route config
-    configureRouting()
-
     // Serialization config
     configureSerialization()
-
-    // Security config
-    configureSecurity()
 
     // Database config
     configureDatabases()
@@ -35,6 +32,9 @@ fun Application.configureKtor() {
 
     // Monitoring config
     configureMonitoring()
+
+    // Route config
+    configureRouting()
 
 
 }

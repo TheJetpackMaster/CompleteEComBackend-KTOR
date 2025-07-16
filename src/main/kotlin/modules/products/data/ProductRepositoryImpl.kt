@@ -27,6 +27,13 @@ class ProductRepositoryImpl : IProductRepository {
         return@dbQuery product
     }
 
+    //Get all
+    override suspend fun getAllProducts(): List<Product> = dbQuery {
+        ProductTable
+            .selectAll()
+            .map { it.toProduct() }
+    }
+
     // Delete All products for specific seller
     override suspend fun deleteAllProducts(ownerId: String): Boolean = dbQuery {
         ProductTable.deleteWhere { ProductTable.ownerId eq ownerId } > 0
@@ -45,8 +52,6 @@ class ProductRepositoryImpl : IProductRepository {
             .where { ProductTable.id eq productId }
             .map { it.toProduct() }
             .singleOrNull()
-
-        return@dbQuery null
     }
 
     // Update product by id

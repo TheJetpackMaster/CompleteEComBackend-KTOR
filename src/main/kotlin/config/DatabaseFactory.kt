@@ -1,5 +1,6 @@
 package com.ecom.config
 
+import com.ecom.modules.products.data.ProductTable
 import com.ecom.modules.users.data.UsersTable
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.sql.Database
@@ -19,7 +20,8 @@ object DatabaseFactory {
 
         transaction {
             SchemaUtils.create(
-                UsersTable
+                UsersTable,
+                ProductTable
             )
         }
     }
