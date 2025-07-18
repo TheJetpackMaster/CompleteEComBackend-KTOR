@@ -28,7 +28,6 @@ fun Route.cartRoutes(
     getCart: GetCartUseCase,
     clearCart: ClearCartUseCase
 ) {
-
     authenticate("jwt") {
         get("/cart") {
             val userId = call.userIdFromToken()

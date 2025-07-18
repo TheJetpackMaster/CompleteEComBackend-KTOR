@@ -5,6 +5,7 @@ import io.ktor.server.application.*
 import modules.auth.di.authModule
 import modules.products.di.productModule
 import modules.users.di.userModule
+import orderModule
 import org.koin.ktor.plugin.Koin
 import org.koin.logger.slf4jLogger
 
@@ -16,7 +17,8 @@ fun Application.configureKoin() {
                 userModule,
                 authModule,
                 productModule,
-                cartModule
+                cartModule,
+                orderModule
             )
         )
     }

@@ -18,31 +18,56 @@ class OrderRepositoryImpl(
 ) : IOrderRepository {
 
     override suspend fun placeOrder(userId: String): Boolean = dbQuery {
-        val cart = cartRepository.getCart(userId) ?: return@dbQuery false
-        if (cart.items.isEmpty()) return@dbQuery false
+        println("🔁 Starting placeOrder for userId: $userId")
 
-        val products = productRepository.getAllProducts() // or individual checks
+        val cart = cartRepository.getCart(userId)
+        println("🛒 Cart for user $userId: $cart")
+
+        if (cart == null) {
+            println("❌ Cart is null")
+            return@dbQuery false
+        }
+
+        if (cart.items.isEmpty()) {
+            println("❌ Cart is empty")
+            return@dbQuery false
+        }
+
+        val products = productRepository.getAllProducts()
+        println("📦 All products: ${products.map { it.id }}")
+
         val total = cart.items.sumOf { item ->
-            val product = products.find { it.id == item.productId } ?: return@dbQuery false
+            val product = products.find { it.id == item.productId }
+            if (product == null) {
+                println("❌ Product not found for ID: ${item.productId}")
+                return@dbQuery false
+            }
+            println("✅ Found product: ${product.id}, price: ${product.price}, qty: ${item.quantity}")
             product.price * item.quantity
-        }.toDouble()
+        }
+
+        println("💰 Total price calculated: $total")
 
         val orderId = UUID.randomUUID().toString()
+        println("🆔 Generated order ID: $orderId")
 
         val inserted = OrdersTable.insert {
             it[id] = orderId
             it[OrdersTable.userId] = userId
             it[items] = Json.encodeToString(cart.items)
-            it[totalPrice] = total
+            it[totalPrice] = total.toDouble()
             it[status] = "PENDING"
             it[createdAt] = System.currentTimeMillis()
         }
 
         if (inserted.resultedValues != null) {
+            println("✅ Order inserted successfully into DB")
             cartRepository.clearCart(userId)
+            println("🧹 Cart cleared for userId: $userId")
             return@dbQuery true
         }
 
+        println("❌ Insert failed: resultedValues is null")
         false
     }
 
@@ -71,7 +96,8 @@ class OrderRepositoryImpl(
 
     override suspend fun getOrderById(orderId: String, userId: String): Order? = dbQuery {
         OrdersTable
-            .select { (OrdersTable.id eq orderId) and (OrdersTable.userId eq userId) }
+            .selectAll()
+            .where { (OrdersTable.id eq orderId) and (OrdersTable.userId eq userId) }
             .mapNotNull {
                 Order(
                     id = it[OrdersTable.id],

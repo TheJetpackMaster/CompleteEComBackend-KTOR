@@ -4,6 +4,7 @@ import com.ecom.modules.products.data.ProductTable
 import com.ecom.modules.users.data.UsersTable
 import kotlinx.coroutines.Dispatchers
 import modules.cart.data.CartsTable
+import modules.orders.data.OrdersTable
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
@@ -23,7 +24,8 @@ object DatabaseFactory {
             SchemaUtils.create(
                 UsersTable,
                 ProductTable,
-                CartsTable
+                CartsTable,
+                OrdersTable
             )
         }
     }

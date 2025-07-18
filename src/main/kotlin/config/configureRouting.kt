@@ -18,8 +18,10 @@ import modules.cart.domain.usecase.GetCartUseCase
 import modules.cart.domain.usecase.RemoveFromCartUseCase
 import modules.cart.presentation.cartRoutes
 import modules.orders.domain.usecase.CancelOrderUseCase
+import modules.orders.domain.usecase.GetOrderByIdUseCase
 import modules.orders.domain.usecase.GetOrdersByUserUseCase
 import modules.orders.domain.usecase.PlaceOrderUseCase
+import modules.orders.presentation.orderRoutes
 import modules.products.domain.usecase.GetAllProductsUseCase
 import modules.users.domain.usecase.GetUserByIdUseCase
 import org.koin.ktor.ext.get
@@ -53,6 +55,7 @@ fun Application.configureRouting(
     val placeOrderUseCase : PlaceOrderUseCase = get()
     val cancelOrderUseCase: CancelOrderUseCase = get()
     val getOrdersByUserUseCase: GetOrdersByUserUseCase = get()
+    val getOrderByIdUseCase: GetOrderByIdUseCase = get()
 
     routing {
 
@@ -86,5 +89,12 @@ fun Application.configureRouting(
         )
 
         //Order
+        orderRoutes(
+            placeOrderUseCase,
+            getOrdersByUserUseCase,
+            cancelOrderUseCase,
+
+            getOrderByIdUseCase,
+        )
     }
 }

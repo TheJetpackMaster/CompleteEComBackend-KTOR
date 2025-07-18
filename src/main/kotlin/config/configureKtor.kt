@@ -18,14 +18,14 @@ fun Application.configureKtor() {
     // Security config
     configureSecurity()
 
+    // Database config
+    configureDatabases()
+
     // Koin config
     configureKoin()
 
     // Serialization config
     configureSerialization()
-
-    // Database config
-    configureDatabases()
 
     // Http config
     configureHTTP()
